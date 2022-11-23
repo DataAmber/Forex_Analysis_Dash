@@ -15,7 +15,7 @@
 每个组都会在自己的branch进行设计，这里我们都从new_empty_branch 开始,后续可以从其他branch 开始设计。 
 点击Pycharm右下角的main，选择new_empty_branch，之后点击checkout。
 切换到新的branch之后，就可以在这个branch 工作了。
-![](./screenshots/Screenshot from 2022-11-23 11-28-09.png)
+![](./screenshots/s3.png)
 
 
 # 3. 编写代码
@@ -25,7 +25,7 @@
 点击commit 按钮（ctrl+K），切换之commit 管理界面。 选择你需要提交的变更。 
 如果发现没有你要的文档或者代码，去unversioned files 里面寻找。
 
-![](./screenshots/Screenshot from 2022-11-23 11-50-31.png)
+![](./screenshots/s6.png)
 
 # 5. create new branch , push 到github
 点击push （ctrl + shift + K）， push到github上。
