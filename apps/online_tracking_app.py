@@ -7,4 +7,4 @@
 """
 from dash import html
 
-ota_layout = html.H2('Online Tracking')
+ota_layout = html.H2('Online Tracking page')
