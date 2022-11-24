@@ -9,7 +9,7 @@ import dash
 from apps.homepage_app import hp_layout
 
 app = dash.Dash(__name__)
-
+server = app.server
 app.layout = hp_layout
 
 if __name__ == '__main__':
