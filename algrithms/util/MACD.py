@@ -77,40 +77,60 @@ def plot_macd(df):
     fig.update_layout(height=600, width=800, title_text="MACD and Signal Line")
     fig.show()
     
-    
-def implement_macd_strategy(prices, data):    
-    buy_price = []
-    sell_price = []
-    macd_signal = []
-    signal = 0
 
-    for i in range(len(data)):
-        if data['macd'][i] > data['signal'][i]:  # 买入信号
-            if signal != 1:
-                buy_price.append(prices[i])
-                sell_price.append(np.nan)
-                signal = 1
-                macd_signal.append(signal)
+# compute ema and ema200
+def get_EMA(df, n=7):
+    # computes 200 EMA
+    ema = df['close'].ewm(span=n, adjust=False).mean()
+    ema_200 = df['close'].ewm(span=200, adjust=False).mean()
+    
+    df['EMA'] = ema
+    df['EMA_200'] = ema_200
+    
+    return df
+
+# implement buy/sell strategy
+def implement_macd_bs_strategy(df):
+    buy_list = []
+    sell_list = []
+    flag = -1
+    
+    for i in range(0,len(df)):
+        # BUY Signal
+        if (df['macd'][i] > df['signal'][i]):
+            sell_list.append(np.nan)
+            if (flag != 1) :
+                flag = 1     
+                if ( (df['high'][i] > df['EMA'][i]) and \
+                    (df['macd'][i] < 0)   ):
+                    buy_list.append(df['close'][i])
+                else:
+                    buy_list.append(np.nan) 
             else:
-                buy_price.append(np.nan)
-                sell_price.append(np.nan)
-                macd_signal.append(0)
-        elif data['macd'][i] < data['signal'][i]: # 卖出信号
-            if signal != -1:
-                buy_price.append(np.nan)
-                sell_price.append(prices[i])
-                signal = -1
-                macd_signal.append(signal)
-            else:
-                buy_price.append(np.nan)
-                sell_price.append(np.nan)
-                macd_signal.append(0)
-        else:
-            buy_price.append(np.nan)
-            sell_price.append(np.nan)
-            macd_signal.append(0)
+                buy_list.append(np.nan)
+        
+        # SELL Signal
+        elif (df['macd'][i] < df['signal'][i]):
             
-    return buy_price, sell_price, macd_signal
+            buy_list.append(np.nan)
+            if (flag != 0) :
+                flag = 0
+                if ( (df['low'][i] < df['EMA'][i]) and \
+                    (df['macd'][i] > 0)   ) :
+                    sell_list.append(df['close'][i])
+                else:
+                    sell_list.append(np.nan)    
+            else:
+                sell_list.append(np.nan)
+        
+        else:
+            buy_list.append(np.nan)
+            sell_list.append(np.nan)
+            
+    df['buy_signal'] = buy_list
+    df['sell_signal'] = sell_list
+
+    return df
 
 
 def plot_macd_with_bs(df):
@@ -128,7 +148,7 @@ def plot_macd_with_bs(df):
         go.Scatter(
             name='buy signal', 
             x=df['Date'], 
-            y=df['buy_price'],
+            y=df['buy_signal'],
             mode="lines+markers",
             marker=dict(
                 color = 'green',
@@ -142,7 +162,7 @@ def plot_macd_with_bs(df):
         go.Scatter(
             name='sell signal', 
             x=df['Date'], 
-            y=df['sell_price'],
+            y=df['sell_signal'],
             mode="lines+markers",
             marker=dict(
                 color = 'red',
@@ -199,9 +219,8 @@ if "__main__"==__name__:
     
     df_macd = compute_macd(df, 26, 12, 9)
     
-    buy_price, sell_price, macd_signal = implement_macd_strategy(df_macd['close'], df_macd)
-    df_macd['buy_price'] = buy_price
-    df_macd['sell_price'] = sell_price
-    df_macd['macd_signal'] = macd_signal
+    df_macd_ema = get_EMA(df_macd, 7)
+    
+    df_macd_bs = implement_macd_bs_strategy(df_macd_ema)
 
-    plot_macd_with_bs(df_macd)
+    plot_macd_with_bs(df_macd_bs)
