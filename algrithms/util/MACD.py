@@ -17,8 +17,6 @@ plot_macd：图中画出MACD line和Signal line
 implement_macd_strategy：根据MACD和Signal实现买入卖出策略
 plot_macd_with_bs：图中标记买入卖出信号
 """
-
-
 def compute_macd(df, slow, fast, smooth):
     macd_trend = MACD(df['close'], window_slow=slow, window_fast=fast, window_sign=smooth)
     df['macd'] = macd_trend.macd()
