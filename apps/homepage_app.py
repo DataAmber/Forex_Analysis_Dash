@@ -24,6 +24,8 @@ layout_mapping = {
     'backtest': bta_layout
 }
 
+
+
 # menu
 logo = fac.AntdImage(
     src='assets/logo.png',preview=False,style={'width':'50%'}
@@ -45,14 +47,6 @@ side_bar = html.Div([fac.AntdHeader([logo],
                         'padding':'0 0'
 }
 ),title
-# fac.AntdHeader([title],
-#                     style={
-#                         'display': 'flex',
-#                         'justifyContent': 'center',
-#                         'alignItems': 'center',
-#                         'background': '#FFFFFF',
-# }
-# )
 , fac.AntdMenu(
     id=id_hp_sidebar,
     menuItems=[
@@ -99,10 +93,7 @@ hp_layout = html.Div(
                                 fac.AntdContent(
                                     id=id_hp_content,
                                     style={
-                                        'display': 'flex',
                                         'height': '100%',
-                                        'justifyContent': 'center',
-                                        'alignItems': 'center'
                                     }
                                 ),
                                 fac.AntdFooter(
