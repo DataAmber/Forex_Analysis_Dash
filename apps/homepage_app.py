@@ -25,57 +25,75 @@ layout_mapping = {
 }
 
 # menu
-title = fac.AntdTitle('Forex Analysis Dash', level=1, id=id_hp_title)
+logo = fac.AntdImage(
+    src='assets/logo.png',preview=False,style={'width':'50%'}
+)
+title = fac.AntdTitle('Forex Analysis Dash', level=1, id=id_hp_title, style={
+                      'font-size': '16px', 'color': 'limegreen','text-align':'center','font-family': 'Times New Roman'})
+
 
 # sidebar
-side_bar = html.Div(
-    fac.AntdMenu(
-        id=id_hp_sidebar,
-        menuItems=[
-            {
-                'component': 'Item',
-                'props': {
-                    'key': f'online_tracking',
-                    'title': f'Online Tracking',
-                    'icon': 'antd-home'
-                }},
-            {
-                'component': 'Item',
-                'props': {
-                    'key': f'forecast',
-                    'title': f'Forecast',
-                    'icon': 'antd-dot-chart'
-                }},
-            {
-                'component': 'Item',
-                'props': {
-                    'key': f'backtest',
-                    'title': f'Backtest',
-                    'icon': 'antd-bar-chart'
-                }}
-        ],
-        defaultSelectedKey='online_tracking',
-        mode='inline',
 
-    )
+side_bar = html.Div([fac.AntdHeader([logo],
+                    style={
+                        'display': 'flex',
+                        'justifyContent': 'center',
+                        'alignItems': 'center',
+                        'background': '#FFFFFF',
+                        'height':'90px',
+                        'text-align':'center',
+                        'padding':'0 0'
+}
+),title
+# fac.AntdHeader([title],
+#                     style={
+#                         'display': 'flex',
+#                         'justifyContent': 'center',
+#                         'alignItems': 'center',
+#                         'background': '#FFFFFF',
+# }
+# )
+, fac.AntdMenu(
+    id=id_hp_sidebar,
+    menuItems=[
+        {
+            'component': 'Item',
+            'props': {
+                'key': f'online_tracking',
+                'title': f'Online Tracking',
+                'icon': 'antd-home'
+            }},
+        {
+            'component': 'Item',
+            'props': {
+                'key': f'forecast',
+                'title': f'Forecast',
+                'icon': 'antd-dot-chart'
+            }},
+        {
+            'component': 'Item',
+            'props': {
+                'key': f'backtest',
+                'title': f'Backtest',
+                'icon': 'antd-bar-chart'
+            }}
+    ],
+    defaultSelectedKey='online_tracking',
+    mode='inline',
+
+)]
+
 )
 
 hp_layout = html.Div(
     [
         fac.AntdLayout(
             [
-                fac.AntdHeader(
-                    title,
-                    style={
-                        'display': 'flex',
-                        'justifyContent': 'center',
-                        'alignItems': 'center',
-                        'background': '#ffd700'
-                    }
-                ),
+
                 fac.AntdLayout(
                     [
-                        fac.AntdSider(side_bar, collapsible=True, style={'backgroundColor': '#ffffff'}),
+                        fac.AntdSider(side_bar, collapsible=True, style={
+                                      'backgroundColor': '#ffffff'}),
                         fac.AntdLayout(
                             [
                                 fac.AntdContent(
@@ -102,8 +120,7 @@ hp_layout = html.Div(
                         )
                     ],
                 )
-            ]
-            , style={
+            ], style={
                 'height': '960px'
             })
     ],
